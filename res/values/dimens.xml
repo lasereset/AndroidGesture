@@ -1,0 +1,56 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="stroke_fd25">-0.25dp</dimen>
+    <dimen name="stroke_d25">0.25dp</dimen>
+    <dimen name="stroke_d5">0.5dp</dimen>
+    <dimen name="stroke_1">1dp</dimen>
+    <dimen name="stroke_2">2dp</dimen>
+    <dimen name="stroke_3">3dp</dimen>
+
+    <dimen name="login_login_width">185dp</dimen>
+    <dimen name="login_login_height">90dp</dimen>
+
+    <dimen name="dialog_width">320dp</dimen>
+    <dimen name="dialog_height_alter">180dp</dimen>
+    <dimen name="dialog_height_list">230dp</dimen>
+    <dimen name="dialog_height_info">90dp</dimen>
+    
+    <dimen name="main_center_dimen">200dp</dimen>
+
+    <dimen name="button_white_height">34dp</dimen>
+
+    <dimen name="distance_0">0dp</dimen>
+    <dimen name="distance_1">1dp</dimen>
+    <dimen name="distance_2d5">2.5dp</dimen>
+    <dimen name="distance_5">5dp</dimen>
+    <dimen name="distance_7">7dp</dimen>
+    <dimen name="distance_10">10dp</dimen>
+    <dimen name="distance_12">12dp</dimen>
+    <dimen name="distance_7d5">7.5dp</dimen>
+    <dimen name="distance_15">15dp</dimen>
+    <dimen name="distance_20">20dp</dimen>
+    <dimen name="distance_25">25dp</dimen>
+    <dimen name="distance_30">30dp</dimen>
+    <dimen name="distance_35">35dp</dimen>
+    <dimen name="distance_40">40dp</dimen>
+    <dimen name="distance_50">50dp</dimen>
+    <dimen name="distance_70">70dp</dimen>
+    <dimen name="distance_100">100dp</dimen>
+
+    <dimen name="radius">6dp</dimen>
+    <dimen name="button_hight">40dp</dimen>
+    <dimen name="input_hight">60dp</dimen>
+    <dimen name="label_hight">60dp</dimen>
+    <dimen name="towline_label_hight">85dp</dimen>
+
+    <dimen name="textSize_ssmin">11sp</dimen>
+    <dimen name="textSize_smin">12sp</dimen>
+    <dimen name="textSize_min">14sp</dimen>
+    <dimen name="textSize_middle">16sp</dimen>
+    <dimen name="textSize_20sp">20sp</dimen>
+    <dimen name="textSize_large">22sp</dimen>
+
+</resources>

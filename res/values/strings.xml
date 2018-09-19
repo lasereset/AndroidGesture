@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidGestureDemo</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="ubin">\u2872</string>
+    
+    <string name="media_no_memory">储存卡存储空间不足</string>
+    <string name="media_ejected">储存卡已拔出，语音功能将暂时不可用</string>
+    <string name="chatfooter_too_short">录音文件太短</string>
+</resources>

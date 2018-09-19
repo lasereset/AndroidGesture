@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.example.androidgesturedemo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_view2"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/changeModel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:background="@drawable/circle_bg_selector"
+            android:gravity="center"
+            android:text="模式一"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize_min"
+            android:layout_marginRight="5dp" />
+
+        <TextView
+            android:id="@+id/finalResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:background="@drawable/circle_bg_selector"
+            android:gravity="center"
+            android:text="播报当前输入文本"
+            android:textColor="@color/black"
+            android:layout_marginLeft="5dp"
+            android:textSize="@dimen/textSize_min" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/firstLinear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_center_dimen"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.0"
+            android:orientation="vertical" >
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_three"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="3"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp" />
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_six"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="6"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <com.example.androidgesturedemo.view.GestureView
+                android:id="@+id/gestureView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/secondLinear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_center_dimen"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <com.example.androidgesturedemo.view.GestureView
+                android:id="@+id/gestureView_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp"
+                app:circle_normal_color="@color/main"
+                app:circle_select_color="@color/buttonFrame" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.0"
+            android:orientation="vertical" >
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_three_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="3"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp"
+                app:circle_normal_color="@color/main"
+                app:circle_select_color="@color/buttonFrame" />
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_six_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="6"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp"
+                app:circle_normal_color="@color/main"
+                app:circle_select_color="@color/buttonFrame" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/voiceLinear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_center_dimen"
+        android:gravity="center"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/mic_image"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:background="@drawable/voice_rcd_hint_bg"
+            android:src="@drawable/record_animate_01" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/center_back_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/confrimButton"
+            style="@style/ButtonStyle"
+            android:text="空格" />
+
+        <Button
+            android:id="@+id/voiceInputButton"
+            style="@style/ButtonStyle"
+            android:text="语音输入" />
+
+        <Button
+            android:id="@+id/backButton"
+            style="@style/ButtonStyle"
+            android:text="退格" />
+    </LinearLayout>
+
+</LinearLayout>

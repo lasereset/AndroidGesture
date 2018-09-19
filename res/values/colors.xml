@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="transparent">#000000</color>
+
+    <color name="tranp">#00FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="grey">#888888</color>
+
+    <color name="light">#4DFFFFFF</color>
+    <color name="lightWhite">#99FFFFFF</color>
+    <color name="lightBlack">#4D000000</color>
+
+    <!--
+        主色#1c98fd（蓝）
+        提示辅色的对应色#f45736（浅橘）
+        边框#cccccc（灰）
+        背景#f3f3f3（灰）
+        提示文字的灰#888888(灰)
+        预置文字的灰#bbbbbb（浅灰）
+        登录的预置文字的灰#9fe2ff（浅灰）
+        标题#000000（纯黑）
+        链接#00729e(深蓝)
+        提示#ff0000（红）
+        提示#45b800（绿）
+        提示#ffa800（黄）
+        等级称谓/点明代理#ff8a00（黄）
+        按钮灰字的字#a8d7fe（灰白） -->
+    <color name="main">#1c98fd</color>
+    <color name="login_bule">#14aafd</color>
+    <color name="warn">#F45736</color>
+    <color name="stroke">#CCCCCC</color>
+    <color name="background">#F3F3F3</color>
+    <color name="hintText">#BBBBBB</color>
+    <color name="titleBlack">#000000</color>
+    <color name="link">#00729E</color>
+    <color name="hintMessage">#FF0000</color>
+    <color name="hintMessageGreen">#45B800</color>
+    <color name="unloginMessage">#9fe2ff</color>
+    <color name="buttonMessage">#a8d7fe</color>
+    <color name="buttonFrame">#ff8a00</color>
+    <color name="yellow">#f4f490</color>
+    <color name="nagative">#fffbe0</color>
+
+    <color name="voicepost">#00cd91</color>
+    <color name="votepost">#ff0000</color>
+    <color name="activityost">#45b800</color>
+    <color name="isreward">#ff8a00</color>
+
+    <color name="transparent_background">#00000000</color>
+    <!--
+    配色方案：
+主色#1c98fd（蓝）
+提示辅色的对应色#f45736（浅橘）
+边框#cccccc（灰）
+背景#f3f3f3（灰）
+提示文字的灰#888888(灰)
+预置文字的灰#bbbbbb（浅灰）
+登录的预置文字的灰#9fe2ff（浅灰）
+标题#000000（纯黑）
+链接#00729e(深蓝)
+提示#ff0000（红）
+提示#45b800（绿）
+提示#ffa800（黄）
+等级称谓/点明代理#ff8a00（黄）
+按钮灰字的字#a8d7fe（灰白）
+
+
+上下左右边距为15dp
+按钮的圆角值为6dp
+按钮的高度为50dp
+单行label和input总高度为50dp
+间隔为15dp
+
+
+字的大小
+最大22sp
+中等16sp
+中小14sp
+最小12sp
+
+透明度皆为30%
+
+统一时间格式：2016-08-01 18:40
+    -->
+
+
+
+</resources>
