@@ -1,7 +1,5 @@
 package com.example.adnroidgesturedemo.service;
 
-import java.util.List;
-
 import com.dianming.common.SessionManager;
 import com.dianming.common.Util;
 import com.dianming.phoneapp.ISpeakService;
@@ -13,8 +11,8 @@ import com.example.androidgesturedemo.tool.EffectHelper;
 import com.example.androidgesturedemo.tool.IRResponse;
 import com.example.androidgesturedemo.tool.IRResponse.DMExplain;
 import com.example.androidgesturedemo.tool.ToolUtils;
-import com.example.androidgesturedemo.view.GestureButtonView;
-import com.example.androidgesturedemo.view.GestureButtonView.CreateGestureButtonViewListener;
+import com.example.androidgesturedemo.view.GestureButton;
+import com.example.androidgesturedemo.view.GestureButton.GestureSelectedListener;
 import com.example.androidgesturedemo.view.GestureView;
 import com.example.androidgesturedemo.view.GestureView.CreateGestureListener;
 
@@ -40,7 +38,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AndroidInputMethodService extends InputMethodService implements CreateGestureListener, OnClickListener, OnResultListence, OnHoverListener, CreateGestureButtonViewListener {
+public class AndroidInputMethodService2 extends InputMethodService implements CreateGestureListener, GestureSelectedListener, OnClickListener, OnResultListence, OnHoverListener {
 
     private static final int FIRST_MODEL = 100;
     private static final int SECOND_MODEL = 101;
@@ -48,21 +46,22 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
     GestureView gestureView2;
     TextView showFinalResult;
     TextView changeModel;
-    
-    GestureButtonView gestureButtonView1;
-    GestureButtonView gestureButtonView2;
 
     LinearLayout firstModelView;
     LinearLayout secondModelView;
     LinearLayout voiceView;
     ImageView voiceImage;
 
+    GestureButton threeButton1;
+    GestureButton threeButton2;
+    GestureButton sixButton1;
+    GestureButton sixButton2;
+
     Button confirmButton;
     Button backButton;
     Button voiceInputButton;
 
     private String gestureViewResult;
-    private List<String> selectGestureButtonViews;
 
     private int current_model = FIRST_MODEL;
 
@@ -87,16 +86,18 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
     @Override
     public void onCreate() {
         super.onCreate();
-        EffectHelper.getInstance().init(AndroidInputMethodService.this);;
+        EffectHelper.getInstance().init(AndroidInputMethodService2.this);;
     }
 
     @Override
     public View onCreateInputView() {
-        if (Util.isSignedByDMCertificate(this, getPackageName()) && Util.isSignedByDMCertificate(this, "com.dianming.phoneapp")) {
-            /* bind Speak Service */
-            Intent intent = new Intent("com.dianming.phoneapp.SpeakServiceForApp");
-            intent.setPackage("com.dianming.phoneapp");
-            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        if (!ToolUtils.isAccessibilityEnabled(this) || ToolUtils.isAccessibilityServiceEnabled(this, ToolUtils.DM_CURRENT_ACCESSIBILITY_SERVICE)) {
+            if (Util.isSignedByDMCertificate(this, getPackageName()) && Util.isSignedByDMCertificate(this, "com.dianming.phoneapp")) {
+                /* bind Speak Service */
+                Intent intent = new Intent("com.dianming.phoneapp.SpeakServiceForApp");
+                intent.setPackage("com.dianming.phoneapp");
+                bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            }
         }
 
         // 装载keyboard.xml文件
@@ -109,8 +110,10 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
         voiceView = (LinearLayout) view.findViewById(R.id.voiceLinear);
         gestureView = (GestureView) view.findViewById(R.id.gestureView);
         gestureView2 = (GestureView) view.findViewById(R.id.gestureView_2);
-        gestureButtonView1 = (GestureButtonView) view.findViewById(R.id.gestureViewButton_1);
-        gestureButtonView2 = (GestureButtonView) view.findViewById(R.id.gestureViewButton_2);
+        threeButton1 = (GestureButton) view.findViewById(R.id.gesture_three);
+        threeButton2 = (GestureButton) view.findViewById(R.id.gesture_three_2);
+        sixButton1 = (GestureButton) view.findViewById(R.id.gesture_six);
+        sixButton2 = (GestureButton) view.findViewById(R.id.gesture_six_2);
         confirmButton = (Button) view.findViewById(R.id.confrimButton);
         backButton = (Button) view.findViewById(R.id.backButton);
         voiceImage = (ImageView) view.findViewById(R.id.mic_image);
@@ -118,8 +121,10 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
 
         gestureView.setGestureListener(this);
         gestureView2.setGestureListener(this);
-        gestureButtonView1.setGestureListener(this);
-        gestureButtonView2.setGestureListener(this);
+        threeButton1.setGestureListener(this);
+        threeButton2.setGestureListener(this);
+        sixButton1.setGestureListener(this);
+        sixButton2.setGestureListener(this);
         confirmButton.setOnClickListener(this);
         confirmButton.setOnHoverListener(this);
         backButton.setOnClickListener(this);
@@ -169,6 +174,7 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
                     Fusion.syncTTS("当前还没有输入任何内容！");return;
                 }
                 String finalResult = IRResponse.getDMExplainByUnicode(content);
+                Log.d("TAG", "Enter into this reportCurrentContent is:" + finalResult);
                 Fusion.syncTTS(finalResult);
             }
         }
@@ -231,7 +237,34 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
     @Override
     public void onGestureCreated(String result) {
         this.gestureViewResult = result;
-        getFianlResult();
+        if (!buttonHasSelected()) {
+            getFianlResult();
+        }
+    }
+
+    private boolean otherNoPress(GestureButton view) {
+        if (gestureView.isUnlocking() || gestureView2.isUnlocking())
+            return false;
+        if (firstModelView.isShown()) {
+            if (view.getId() == threeButton1.getId() && !sixButton1.isSelected()) {
+                return true;
+            }
+            if (view.getId() == sixButton1.getId() && !threeButton1.isSelected()) {
+                return true;
+            }
+        } else {
+            if (view.getId() == threeButton2.getId() && !sixButton2.isSelected()) {
+                return true;
+            }
+            if (view.getId() == sixButton2.getId() && !threeButton2.isSelected()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean buttonHasSelected() {
+        return threeButton1.isSelected() || threeButton2.isSelected() || sixButton1.isSelected() || sixButton2.isSelected();
     }
 
     private Handler handler = new Handler(new Handler.Callback() {
@@ -242,33 +275,46 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
         }
     });
 
-    private boolean getFianlResult() {
-    	if (!isFinished()) {
-    		return false;
-    	}
+    @Override
+    public void onGestureSelected(GestureButton view) {
+        if (otherNoPress(view)) {
+            handler.sendEmptyMessageAtTime(0, 100);
+        }
+    }
+
+    private void getFianlResult() {
         StringBuffer stringBuffer = new StringBuffer();
-        if (!Fusion.isEmpty(selectGestureButtonViews)) {
-        	if (selectGestureButtonViews.contains("3")) {
-        		stringBuffer.append("30");
-        	} 
-        	if (selectGestureButtonViews.contains("6")) {
-        		stringBuffer.append("60");
-        	}
+        if (firstModelView.isShown()) {
+            if (threeButton1.isHasSelected()) {
+                threeButton1.setHasSelected(false);
+                stringBuffer.append("30");
+            }
+            if (sixButton1.isHasSelected()) {
+                sixButton1.setHasSelected(false);
+                stringBuffer.append("60");
+            }
+        } else {
+            if (threeButton2.isHasSelected()) {
+                threeButton2.setHasSelected(false);
+                stringBuffer.append("30");
+            }
+            if (sixButton2.isHasSelected()) {
+                sixButton2.setHasSelected(false);
+                stringBuffer.append("60");
+            }
         }
         if (!Fusion.isEmpty(gestureViewResult)) {
             stringBuffer.append(gestureViewResult);
         }
         gestureViewResult = null;
         try {
-        	Log.d("TAG", "Enter into this reportCurrentContent is:" + stringBuffer.toString());
             IRResponse.DMExplain dmExplain = IRResponse.all_dm_hashMap.get(Integer.valueOf(stringBuffer.toString()));
             getCurrentInputConnection().commitText(dmExplain.getUnicode(), 1);
             Fusion.syncForceTTS(dmExplain.getSpeakDes());
         } catch (Exception e) {
             e.printStackTrace();
-            Fusion.syncTTS("未检测到结果！");
+            Fusion.syncForceTTS("未检测到结果！");
         }
-        return true;
     }
 
     @Override
@@ -278,14 +324,14 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
             getCurrentInputConnection().commitText(dmExplain.getUnicode(), 1);
             Fusion.syncForceTTS(dmExplain.getSpeakDes());
         } else {
-            Fusion.syncTTS(resultText + "未找到对应的结果！");
+            Fusion.syncForceTTS(resultText + "未找到对应的结果！");
         }
         cancleDialog();
     }
 
     @Override
     public void error(String error) {
-        ToolUtils.syncToast(AndroidInputMethodService.this, error);
+        ToolUtils.syncToast(AndroidInputMethodService2.this, error);
         cancleDialog();
     }
     
@@ -312,21 +358,4 @@ public class AndroidInputMethodService extends InputMethodService implements Cre
         }
         return true;
     }
-    
-    private boolean isFinished() {
-    	return !gestureView.isUnlocking() && !gestureView2.isUnlocking() && !gestureButtonView1.isUnlocking() && !gestureButtonView2.isUnlocking();
-    }
-
-	@Override
-	public void onGestureButtonViewCreated(List<String> selectViews) {
-		if (Fusion.isEmpty(selectViews)) {
-			boolean isCancle = getFianlResult();
-			if (selectGestureButtonViews != null && isCancle) {
-				selectGestureButtonViews.clear();
-	            selectGestureButtonViews = null;
-			}
-			return;
-		}
-		this.selectGestureButtonViews = selectViews;
-	}
 }

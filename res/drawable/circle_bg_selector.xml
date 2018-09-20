@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_pressed="true" android:bottom="@dimen/stroke_d25" android:left="@dimen/stroke_fd25" android:right="@dimen/stroke_fd25" android:top="@dimen/stroke_fd25"><shape android:shape="rectangle">
-            <solid android:color="@color/background" />
             <stroke android:width="0.5dp" android:color="@color/black" />
             <corners android:radius="8dip" />
+            <gradient android:angle="90" android:endColor="#A65B3A" android:startColor="#DEB3A1"/>
         </shape></item>
-    <item ><shape android:shape="rectangle">
-            <solid android:color="@color/hintText" />
+    <item><shape android:shape="rectangle">
+            <gradient android:angle="90" android:endColor="#DEB3A1" android:startColor="#A65B3A"/>
             <stroke android:width="@dimen/stroke_d5" android:color="@color/black" />
             <corners android:radius="8dip" />
         </shape></item>

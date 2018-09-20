@@ -44,13 +44,40 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_center_dimen"
         android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.0"
+            android:visibility="gone"
+            android:orientation="vertical" >
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_three"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="3"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp" />
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_six"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="6"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp" />
+        </LinearLayout>
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2.0" >
 
             <com.example.androidgesturedemo.view.GestureButtonView
-                android:id="@+id/gestureViewButton_1"
+                android:id="@+id/gestureView_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:center_text_color="@color/black"
@@ -104,14 +131,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2.0" >
+            android:layout_weight="2.0"
+            android:orientation="vertical" >
 
-            <com.example.androidgesturedemo.view.GestureButtonView
-                android:id="@+id/gestureViewButton_2"
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_three_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="3"
                 app:center_text_color="@color/black"
-                app:center_text_size="30sp" />
+                app:center_text_size="30sp"
+                app:circle_normal_color="@color/main"
+                app:circle_select_color="@color/buttonFrame" />
+
+            <com.example.androidgesturedemo.view.GestureButton
+                android:id="@+id/gesture_six_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                app:center_text="6"
+                app:center_text_color="@color/black"
+                app:center_text_size="30sp"
+                app:circle_normal_color="@color/main"
+                app:circle_select_color="@color/buttonFrame" />
         </LinearLayout>
     </LinearLayout>
 

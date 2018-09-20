@@ -2,7 +2,6 @@ package com.example.androidgesturedemo.view;
 
 import com.dianming.common.Util;
 import com.dianming.support.Fusion;
-import com.dianming.support.Log;
 import com.example.androidgesturedemo.R;
 import com.example.androidgesturedemo.entity.Circle;
 import com.example.androidgesturedemo.entity.RectMain;
@@ -13,10 +12,13 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
 
@@ -35,14 +37,16 @@ public class GestureButton extends Button{
     private Bitmap circletBmp;// used for drawing circles
     private Canvas mCanvas;
     private Paint cirNorPaint;// paint of normal state circles
-    private Paint rectSelPaint;// paint of selected state circles
     private Paint smallCirSelPaint;// paint of selected state small circles
+    private Paint bigCirSelPaint;
     private Paint textPaint;
     private int strokeWidth = 2;// width of big circles;
+    private Shader shader_normal;
+    private Shader shader_select;
+    private Shader shader_big_select;
     
-    private int normalColor;
-    private int selectColor;
     private int normalR = 20;// radius of small circles;
+    private int selectR = 30;
     
     private GestureSelectedListener gestureListener;// the listener of creating gesture
     
@@ -66,9 +70,11 @@ public class GestureButton extends Button{
         mColor = a.getColor(R.styleable.GestureButton_center_text_color,Color.BLACK);
         mText = a.getString(R.styleable.GestureButton_center_text);
         mTextSize = a.getDimensionPixelOffset(R.styleable.GestureButton_center_text_size, GestureView.dip2px(context, 30));
-        normalColor = a.getColor(R.styleable.GestureButton_circle_normal_color,Color.parseColor("#D5DBE8"));
-        selectColor = a.getColor(R.styleable.GestureButton_circle_select_color,Color.parseColor("#508CEE"));
         normalR = a.getDimensionPixelOffset(R.styleable.GestureButton_circle_normal_color_size, GestureView.dip2px(context, 20));
+        selectR = a.getDimensionPixelOffset(R.styleable.GestureView_circle_normal_color_size, GestureView.dip2px(context, 30));
+        shader_normal = new LinearGradient(0,0,40,60,new int[] {Color.parseColor("#A65B3A"),Color.parseColor("#DEB3A1")},null,Shader.TileMode.REPEAT);
+        shader_select = new LinearGradient(0,0,40,60,new int[] {Color.parseColor("#554B95"),Color.parseColor("#9088C3")},null,Shader.TileMode.REPEAT);
+        shader_big_select = new LinearGradient(0,0,40,60,new int[] {Color.parseColor("#DCEEF4"),Color.parseColor("#9088C3")},null,Shader.TileMode.REPEAT);
         // 解析后释放资源
         a.recycle();
         
@@ -88,8 +94,6 @@ public class GestureButton extends Button{
         if (circle != null) {
             circle.setState(CIRCLE_NORMAL);
         }
-        rectSelPaint.setColor(selectColor);
-        smallCirSelPaint.setColor(selectColor);
         clearCanvas();
     }
     
@@ -121,23 +125,21 @@ public class GestureButton extends Button{
         cirNorPaint = new Paint();
         cirNorPaint.setAntiAlias(true);
         cirNorPaint.setDither(true);
-        cirNorPaint.setColor(normalColor);
+        cirNorPaint.setShader(shader_normal);
         // 文字画笔
         textPaint = new Paint();
         textPaint.setColor(mColor);
         textPaint.setTextSize(mTextSize);
-        // 选中状态外框画笔
-        rectSelPaint = new Paint();
-        rectSelPaint.setAntiAlias(true);
-        rectSelPaint.setDither(true);
-        rectSelPaint.setStyle(Paint.Style.STROKE);
-        rectSelPaint.setStrokeWidth(strokeWidth);
-        rectSelPaint.setColor(selectColor);
+        //选中状态大圆画笔
+        bigCirSelPaint = new Paint();
+        bigCirSelPaint.setAntiAlias(true);
+        bigCirSelPaint.setDither(true);
+        bigCirSelPaint.setShader(shader_big_select);
         // 选中状态小圆画笔
         smallCirSelPaint = new Paint();
         smallCirSelPaint.setAntiAlias(true);
         smallCirSelPaint.setDither(true);
-        smallCirSelPaint.setColor(selectColor);
+        smallCirSelPaint.setShader(shader_select);
 
         // init all circles
         int tempX = width / 2;
@@ -160,8 +162,7 @@ public class GestureButton extends Button{
                 mCanvas.drawCircle(circle.getX(), circle.getY(), normalR, cirNorPaint);
                 break;
             case CIRCLE_SELECTED:
-                RectMain rectMain = circle.getRectMain();
-                mCanvas.drawRect(rectMain.getLeft(), rectMain.getTop(), rectMain.getRifht(), rectMain.getBottom(), rectSelPaint);
+            	mCanvas.drawCircle(circle.getX(), circle.getY(), selectR, bigCirSelPaint);
                 mCanvas.drawCircle(circle.getX(), circle.getY(), normalR, smallCirSelPaint);
                 break;
         }

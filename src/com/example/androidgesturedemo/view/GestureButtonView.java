@@ -1,6 +1,7 @@
 package com.example.androidgesturedemo.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.dianming.support.Fusion;
 import com.example.androidgesturedemo.R;
@@ -30,7 +31,7 @@ import android.view.View;
  * Created by Wulei on 2017/7/27.
  */
 
-public class GestureView extends View {
+public class GestureButtonView extends View {
     public static final int CIRCLE_NORMAL = 1;// normal state of circle
     public static final int CIRCLE_SELECTED = 2;// selected state of circle
     private int width;// the width of screen,valued in onMeasure
@@ -63,10 +64,10 @@ public class GestureView extends View {
     private boolean isUnlocking;
     private boolean hasNewCircles;
     private ArrayList<String> passList = new ArrayList<String>();
-    private CreateGestureListener createListener;// the listener of creating gesture
+    private CreateGestureButtonViewListener createListener;// the listener of creating gesture
     
     private static final String[] numberList = new String[] {
-            "1", "4", "2", "5"
+            "3", "6"
     };
 
     /**
@@ -81,15 +82,15 @@ public class GestureView extends View {
         }
     });
 
-    public GestureView(Context context) {
+    public GestureButtonView(Context context) {
         this(context, null, 0);
     }
 
-    public GestureView(Context context, AttributeSet attrs) {
+    public GestureButtonView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public GestureView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GestureButtonView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.GestureView);
 
@@ -98,9 +99,9 @@ public class GestureView extends View {
         // 将解析的属性传入到画圆的画笔颜色变量当中（本质上是自定义画圆画笔的颜色）
         // 第二个参数是默认设置颜色（即无指定circle_color情况下使用）
         mColor = a.getColor(R.styleable.GestureView_center_text_color,Color.parseColor("#3689B0"));
-        mTextSize = a.getDimensionPixelOffset(R.styleable.GestureView_center_text_size, GestureView.dip2px(context, 30));
-        normalR = a.getDimensionPixelOffset(R.styleable.GestureView_circle_normal_color_size, GestureView.dip2px(context, 20));
-        selectR = a.getDimensionPixelOffset(R.styleable.GestureView_circle_normal_color_size, GestureView.dip2px(context, 30));
+        mTextSize = a.getDimensionPixelOffset(R.styleable.GestureView_center_text_size, GestureButtonView.dip2px(context, 30));
+        normalR = a.getDimensionPixelOffset(R.styleable.GestureView_circle_normal_color_size, GestureButtonView.dip2px(context, 20));
+        selectR = a.getDimensionPixelOffset(R.styleable.GestureView_circle_normal_color_size, GestureButtonView.dip2px(context, 30));
         shader_normal = new LinearGradient(0,0,40,60,new int[] {Color.parseColor("#A65B3A"),Color.parseColor("#DEB3A1")},null,Shader.TileMode.REPEAT);
         shader_select = new LinearGradient(0,0,40,60,new int[] {Color.parseColor("#554B95"),Color.parseColor("#9088C3")},null,Shader.TileMode.REPEAT);
         shader_big_select = new LinearGradient(0,0,40,60,new int[] {Color.parseColor("#DCEEF4"),Color.parseColor("#9088C3")},null,Shader.TileMode.REPEAT);
@@ -183,13 +184,8 @@ public class GestureView extends View {
                 if (rectMains.size() > 0) {
                     mPath.reset();
                     mPath.addPath(tempPath);
-                    StringBuilder sb = new StringBuilder();
-                    for (String num : passList) {
-                        sb.append(num);
-                    }
-
                     if (createListener != null) {
-                        createListener.onGestureCreated(sb.toString());
+                        createListener.onGestureButtonViewCreated(null);
                     }
                     resetAll();
                 }
@@ -256,17 +252,16 @@ public class GestureView extends View {
         smallCirSelPaint.setShader(shader_select);
 
         // init all circles
-        int hor = width / 4;
+        int hor = width / 2;
         int ver = height / 4;
         if (!hasNewCircles) {
-            for (int i = 0; i < 4; i++) {
-                int tempX = (i % 2 + 1) * 2 * hor - hor;
-                int tempY = (i / 2 + 1) * 2 * ver - ver;
+            for (int i = 0; i < numberList.length; i++) {
+                int tempX = (i % 1 + 1) * 2 * hor - hor;
+                int tempY = (i / 1 + 1) * 2 * ver - ver;
                 float tempLeft = tempX - hor;
                 float tempRight = tempX + hor;
                 float tempTop = tempY - ver;
                 float tempBootom = tempY + ver;
-                Log.d("TAG2", "THIS circleList  IS:" + tempLeft +" -" + tempRight + "-" + tempTop + "- "+ tempBootom);
                 RectMain rectMain = new RectMain(tempLeft, tempRight, tempTop, tempBootom);
                 Circle circle = new Circle(i, tempX, tempY, CIRCLE_NORMAL, rectMain, numberList[i]);
                 circleList.add(circle);
@@ -360,17 +355,20 @@ public class GestureView extends View {
     private void addItem(String text) {
         if (!arrContainsInt(text)) {
             passList.add(text);
+            if (createListener != null) {
+                createListener.onGestureButtonViewCreated(passList);
+            }
         }
     }
 
     /**
      * Create Mode Listener
      */
-    public interface CreateGestureListener {
-        void onGestureCreated(String result);
+    public interface CreateGestureButtonViewListener {
+        void onGestureButtonViewCreated(List<String> selectViews);
     }
 
-    public void setGestureListener(CreateGestureListener listener) {
+    public void setGestureListener(CreateGestureButtonViewListener listener) {
         this.createListener = listener;
     }
 

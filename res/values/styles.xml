@@ -3,7 +3,7 @@
     
     <style name="ButtonStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">45dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/circle_bg_selector</item>
         <item name="android:textColor">@color/black</item>

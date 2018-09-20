@@ -18,7 +18,7 @@
     <dimen name="dialog_height_list">230dp</dimen>
     <dimen name="dialog_height_info">90dp</dimen>
     
-    <dimen name="main_center_dimen">200dp</dimen>
+    <dimen name="main_center_dimen">170dp</dimen>
 
     <dimen name="button_white_height">34dp</dimen>
 
